@@ -1,6 +1,4 @@
 const express = require('express')
-const res = require('express/lib/response')
-const { contentDisposition } = require('express/lib/utils')
 const MongoClient = require('mongodb').MongoClient
 
 const app = express()
@@ -28,20 +26,6 @@ app.get('/value', (req, res) => {
     db.collection('Documents').find({}).toArray((err, result) => {
         res.json(result.length)
     })
-})
-
-app.get('/file', (req, res) => {
-    console.log(req.query.title)
-    db.collection('Documents').findOne({
-        title: req.query.title
-    }), (err, result) => {
-        res.json({
-            title: result.title,
-            desc: result.desc
-        })
-    }
-
-    // 여기가 안됨
 })
 
 app.get('/search', (req, res) => {
@@ -83,4 +67,11 @@ app.post('/new', (req, res) => {
     else {
         res.json('no')
     }
+})
+
+app.get('/file', (req, res) => {
+    db.collection('Documents').find({
+    }).toArray((err, result) => {
+        res.json(result)
+    })
 })
